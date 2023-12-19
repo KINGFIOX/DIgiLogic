@@ -1,0 +1,42 @@
+digraph "keyboard" {
+    // label = "keyboard";
+    rankdir = "LR";
+    
+    // 输入，用菱形表示
+    clk [shape = diamond;label = "clk";];
+    rst [shape = diamond;label = "rst";];
+    
+    dk0 [shape = diamond;label = "d0";];
+    dk1 [shape = diamond;label = "d1";];
+    dk2 [shape = diamond;label = "d2";];
+    dk3 [shape = diamond;label = "d3";];
+    dk4 [shape = diamond;label = "d4";];
+    dk5 [shape = diamond;label = "d5";];
+    dk6 [shape = diamond;label = "d6";];
+    dk7 [shape = diamond;label = "d7";];
+    
+    
+    // 输出，用八边形表示
+    out [shape = octagon;label = "out";];
+    led_en [shape = octagon;label = "led_en";];
+    
+    // 元件
+    cnt [shape = record;label = "{{<c0> clk | <c1> rst | <c2> en}|cnt\ndp_cnt|{<n0> sel}}";];
+    mux [shape = record;label = "{{<m0> sel| <m1> dk0 | <m2> dk1 | <m3> dk2 | <m4> dk3 | <m5> dk4 | <m6> dk5 | <m7> dk6 | <m8> dk7}|mux\ndp_mux|{<u0> out | <u1> led_en}}";];
+    
+    // 连接
+    clk -> cnt:c0;
+    rst -> cnt:c1;
+    1 -> cnt:c2;
+    cnt:n0 -> mux:m0 [label = "3";];
+    dk0 -> mux:m1 [label = "4";];
+    dk1 -> mux:m2 [label = "4";];
+    dk2 -> mux:m3 [label = "4";];
+    dk3 -> mux:m4 [label = "4";];
+    dk4 -> mux:m5 [label = "4";];
+    dk5 -> mux:m6 [label = "4";];
+    dk6 -> mux:m7 [label = "4";];
+    dk7 -> mux:m8 [label = "4";];
+    mux:u0 -> out [label = "8";];
+    mux:u1 -> led_en [label = "8";];
+}

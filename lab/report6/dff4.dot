@@ -1,0 +1,57 @@
+digraph "keyboard" {
+    // label = "keyboard";
+    rankdir = "LR";
+    
+    // 输入，用菱形表示
+    clk [shape = diamond;label = "clk";];
+    rst [shape = diamond;label = "rst";];
+    en [shape = diamond;label = "en";];
+    d [shape = diamond;label = "d";];
+    wsel [shape = diamond;label = "wsel";];
+    rsel [shape = diamond;label = "rsel";];
+    
+    // 输出，用八边形表示
+    q [shape = octagon;label = "q";];
+    
+    // 元件
+    de [shape = record;label = "{{<d0> sel | <d1> en} | de\ndecode24 | {<e0> out}}";];
+    
+    d0 [shape = record;label = "{{<d0> clk|<d1> rst|<d2> en| <d3> d}|d0\ndff|{<f0> q}}";];
+    d1 [shape = record;label = "{{<d0> clk|<d1> rst|<d2> en| <d3> d}|d1\ndff|{<f0> q}}";];
+    d2 [shape = record;label = "{{<d0> clk|<d1> rst|<d2> en| <d3> d}|d2\ndff|{<f0> q}}";];
+    d3 [shape = record;label = "{{<d0> clk|<d1> rst|<d2> en| <d3> d}|d3\ndff|{<f0> q}}";];
+    
+    m [shape = record;label = "{{<m0> sel | <m1> in0 | <m2> in1 | <m3> in2 | <m4> in3 }|m\nmux4|{<u0> out}}";];
+    
+    // 连接
+    wsel -> de:d0 [label = "2";];
+    en -> de:d1;
+    de:e0 -> d0:d2 [label = "out[0]";];
+    de:e0 -> d1:d2 [label = "out[1]";];
+    de:e0 -> d2:d2 [label = "out[2]";];
+    de:e0 -> d3:d2 [label = "out[3]";];
+    
+    clk -> d0:d0;
+    clk -> d1:d0;
+    clk -> d2:d0;
+    clk -> d3:d0;
+    
+    rst -> d0:d1;
+    rst -> d1:d1;
+    rst -> d2:d1;
+    rst -> d3:d1;
+    
+    d0:f0 -> m:m1 [label = "16";];
+    d1:f0 -> m:m2 [label = "16";];
+    d2:f0 -> m:m3 [label = "16";];
+    d3:f0 -> m:m4 [label = "16";];
+    
+    d -> d0:d3 [label = "16";];
+    d -> d1:d3 [label = "16";];
+    d -> d2:d3 [label = "16";];
+    d -> d3:d3 [label = "16";];
+    
+    rsel -> m:m0 [label = "2";];
+    
+    m:u0 -> q [label = "16";];
+}

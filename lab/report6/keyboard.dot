@@ -1,0 +1,30 @@
+digraph "keyboard" {
+    // label = "keyboard";
+    rankdir = "LR";
+    
+    // 输入，用菱形表示
+    clk [shape = diamond;label = "clk";];
+    rst [shape = diamond;label = "rst";];
+    row [shape = diamond;label = "row";];
+    
+    // 输出，用八边形表示
+    en [shape = octagon;label = "en";];
+    num [shape = octagon;label = "num";];
+    col [shape = octagon;label = "col";];
+    
+    // 元件
+    cnt [shape = record;label = "{{<c0> clk|<c1> reset|<c2> cnt_inc}|cnt\nkb_cnt|{<n0> cnt_end}}";];
+    logic [shape = circle;label = "keyboard内部逻辑";];
+    
+    // 连线
+    clk -> logic;
+    clk -> cnt:c0;
+    rst -> logic;
+    rst -> cnt:c1;
+    row -> logic [xlabel = "4";];
+    1 -> cnt:c2;
+    cnt:n0 -> logic;
+    logic -> en;
+    logic -> col [xlabel = "4";];
+    logic -> num [xlabel = "4";];
+}

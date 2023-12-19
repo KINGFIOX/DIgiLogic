@@ -1,0 +1,48 @@
+digraph "top_module" {
+    // label = "top_module";
+    rankdir = "RL";
+    // 输出，用八边形表示
+    led_en [shape = octagon;label = "led_en";];
+    out [shape = octagon;label = "out";];
+    col [shape = octagon;label = "col";];
+    
+    // 输入，用菱形表示
+    clk [shape = diamond;label = "clk";];
+    rst [shape = diamond;label = "rst";];
+    row [shape = diamond;label = "row";];
+    s2 [shape = diamond;label = "s2";];
+    s3 [shape = diamond;label = "s3";];
+    s4 [shape = diamond;label = "s4";];
+    s5 [shape = diamond;label = "s5";];
+    
+    // 原件
+    cal [shape = record;label = "{{<c0> col|<c1> out1|<c2> out2}|c\ncal|{<a0> s2|<a1> s3|<a2> s4|<a3> s5|<a4> clk |<a5> row|<a6> rst}}";];
+    dp [shape = record;label = "{{<d0>out|<d1> led_en}|dp\ndisplay|{<p0>dk0|<p1> dk1|<p2> dk2|<p3> dk3|<p4> dk4|<p5> dk5|<p6> dk6|<p7> dk7|<p8> rst|<p9> clk}}";];
+    
+    // 连线
+    clk -> dp:p9 [label = "";];
+    clk -> cal:a4 [label = "";];
+    
+    rst -> dp:p8 [label = "";];
+    rst -> cal:a6 [label = "";];
+    
+    row -> cal:a5 [xlabel = "4";];
+    cal:c0 -> col [xlabel = "4";];
+    
+    cal:c1 -> dp:p0 [xlabel = "4";];
+    cal:c1 -> dp:p1 [xlabel = "4";];
+    cal:c1 -> dp:p2 [xlabel = "4";];
+    cal:c1 -> dp:p3 [xlabel = "4";];
+    cal:c2 -> dp:p4 [xlabel = "4";];
+    cal:c2 -> dp:p5 [xlabel = "4";];
+    cal:c2 -> dp:p6 [xlabel = "4";];
+    cal:c2 -> dp:p7 [xlabel = "4";];
+    
+    dp:d0 -> out [xlabel = "8";];
+    dp:d1 -> led_en [xlabel = "8";];
+    
+    s2 -> cal:a0 [xlabel = "";];
+    s3 -> cal:a1 [xlabel = "";];
+    s4 -> cal:a2 [xlabel = "";];
+    s5 -> cal:a3 [xlabel = "";];
+}

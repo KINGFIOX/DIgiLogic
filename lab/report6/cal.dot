@@ -1,0 +1,62 @@
+digraph "keyboard" {
+    // label = "keyboard";
+    rankdir = "LR";
+    
+    // 输入，用菱形表示
+    clk [shape = diamond;label = "clk";];
+    rst [shape = diamond;label = "rst";];
+    s2 [shape = diamond;label = "s2";];
+    s3 [shape = diamond;label = "s3";];
+    s4 [shape = diamond;label = "s4";];
+    s5 [shape = diamond;label = "s5";];
+    row [shape = diamond;label = "row";];
+    
+    // 输出，用八边形表示
+    out1 [shape = octagon;label = "out1";];
+    out2 [shape = octagon;label = "out2";];
+    col [shape = octagon;label = "col";];
+    
+    // 元件
+    bs4 [shape = record;label = "{{<b0> key_in | <b1> clk | <b2> rst}|bs4\nbtn_stable|{<s0> key_out}}";];
+    ec [shape = record;label = "{{<e0> num}|ec\nen_check|{<c0> check | <c1> method}}";];
+    cu [shape = record;label = "{{<c0> method | <c1> a | <c2> b}|cu\ncal_util|{<u0> ans}}";];
+    s3s5c [shape = record;label = "{{<s0> s3 | <s1> s5 | <s2> clk | <s3> rst }|s3s5c\ns3s5_control|{<c0> rsel}}";];
+    d2b2 [shape = record;label = "{{<d0>bcd}|d2b2\ndec2bcd|{<b0>decimal}}";];
+    d4 [shape = record;label = "{{<d0>clk | <d1>rst | <d2>en | <d3>d | <d4>wsel | <d5> rsel } |d4\ndff4| { <f0>q}}";];
+    k [shape = record;label = "{{<e0> rst | <e1> clk | <e2> row}|k\nkeyboard|{<k0> col | <k1> num | <k2> en}}";];
+    
+    state [shape = circle;label = "状态机";];
+    
+    // 连线
+    k:k0 -> col [label = "4";];
+    k:k1 -> state [label = "4";];
+    k:k2 -> state;
+    rst -> k:e0;
+    clk -> k:e1;
+    rst -> d4:d1;
+    clk -> d4:d0;
+    rst -> bs4:b2;
+    clk -> bs4:b1;
+    row -> k:e2 [label = "4";];
+    s3 -> s3s5c:s0;
+    s5 -> s3s5c:s1;
+    s2 -> state;
+    clk -> s3s5c:s2;
+    rst -> s3s5c:s3;
+    s3s5c:c0 -> d4:d5 [label = "2";];
+    state -> out1 [label = "16";];
+    state -> d4:d2;
+    state -> d4:d3 [label = "16";];
+    state -> d4:d4 [label = "2";];
+    s4 -> bs4:b0;
+    bs4:s0 -> state;
+    d4:f0 -> d2b2:d0 [label = "16";];
+    d2b2:b0 -> out2 [label = "16";];
+    state -> cu:c0 [label = "4";];
+    state -> cu:c1 [label = "4";];
+    state -> cu:c2 [label = "4";];
+    cu:u0 -> state [label = "4";];
+    k:k1 -> ec:e0 [label = "4";];
+    ec:c0 -> state;
+    ec:c1 -> state [label = "4";];
+}
